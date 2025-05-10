@@ -1,0 +1,25 @@
+# Dependencies and build artifacts
+node_modules
+dist
+
+# Git and CI files
+.git
+.github
+.gitignore
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+logs/
+.DS_Store
+
+# Development configurations
+.vscode
+.idea
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.*
+!.env.example
