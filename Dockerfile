@@ -1,47 +1,22 @@
-# Build stage
-FROM node:18-alpine AS builder
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install all dependencies (including dev dependencies)
-RUN npm ci
-
-# Copy all project files
-COPY . .
-
-# Create a .env file with placeholder 
-RUN cp .env.example .env
-
-# Build the application in development mode to avoid optimization issues
-RUN NODE_ENV=development npm run build
-
-# Production stage
 FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files and install dependencies
 COPY package*.json ./
+RUN npm ci
 
-# Install only production dependencies
-RUN npm ci --omit=dev
+# Copy the rest of the application code
+COPY . .
 
-# Copy built files from builder stage
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/client/assets ./client/assets
-COPY --from=builder /app/server.js ./server.js
+# Build the application for production
+RUN npm run build
 
-# Environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
-
-# Expose the application port
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Start the server
-CMD ["node", "server.js"]
+# Set NODE_ENV to production
+ENV NODE_ENV=production
+
+# Start the application in production mode
+CMD ["node", "server.js"] 
