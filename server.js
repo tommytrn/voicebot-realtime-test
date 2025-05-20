@@ -26,7 +26,7 @@ app.get("/token", async (req, res) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "gpt-4o-realtime-preview-2024-12-17",
+          model: "gpt-4o-realtime-preview-2024-10-01",
           voice: "ash",
           temperature: 0.8,
           max_response_output_tokens: "inf",
@@ -40,7 +40,7 @@ app.get("/token", async (req, res) => {
           },
           input_audio_transcription: {
             model: "whisper-1",
-            language: "de",
+            language: "en",
           },
         }),
       },

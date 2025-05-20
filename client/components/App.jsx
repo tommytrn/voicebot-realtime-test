@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import logo from "/assets/openai-logomark.svg";
 import EventLog from "./EventLog";
 import SessionControls from "./SessionControls";
-import ToolPanel from "./ToolPanel";
+import InitConversation from "./InitConversation";
+import ConversationLog from "./ConversationLog";
 
 export default function App() {
   const [isSessionActive, setIsSessionActive] = useState(false);
@@ -40,7 +41,7 @@ export default function App() {
     await pc.setLocalDescription(offer);
 
     const baseUrl = "https://api.openai.com/v1/realtime";
-    const model = "gpt-4o-realtime-preview-2024-12-17";
+    const model = "gpt-4o-realtime-preview-2024-10-01";
     const sdpResponse = await fetch(`${baseUrl}?model=${model}`, {
       method: "POST",
       body: offer.sdp,
@@ -147,12 +148,11 @@ export default function App() {
     <>
       <nav className="absolute top-0 left-0 right-0 h-16 flex items-center">
         <div className="flex items-center gap-4 w-full m-4 pb-2 border-0 border-b border-solid border-gray-200">
-          <img style={{ width: "24px" }} src={logo} />
-          <h1>realtime console</h1>
+          <h1>Rolecard-Negotiation</h1>
         </div>
       </nav>
       <main className="absolute top-16 left-0 right-0 bottom-0">
-        <section className="absolute top-0 left-[380px] right-[380px] bottom-0 flex">
+        <section className="absolute top-0 left-0 right-[380px] bottom-0 flex">
           <section className="absolute top-0 left-0 right-0 bottom-32 px-4 overflow-y-auto">
             <EventLog events={events} />
           </section>
@@ -166,6 +166,9 @@ export default function App() {
               isSessionActive={isSessionActive}
             />
           </section>
+        </section>
+        <section className="absolute top-0 w-[380px] right-0 bottom-0 p-4 pt-0 overflow-y-auto">
+          <ConversationLog events={events} isSessionActive={isSessionActive} />
         </section>
       </main>
     </>
